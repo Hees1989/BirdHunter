@@ -10,28 +10,30 @@ import processing.core.PGraphics;
 public class Bullet extends GameObject implements ICollidableWithGameObjects {
 	private BirdHunter bh;
 	private Sound hitSound;
-	private int bulletSize = 10;
+	private int bulletSize = 5;
 
 	public Bullet(BirdHunter bh, Sound hitSound) {
 		this.bh = bh;
 		this.hitSound = hitSound;
 		//setySpeed(-bulletSize/10f);
-		setySpeed(-1);
+		setySpeed(-10);
 		setWidth(bulletSize);
 		setHeight(bulletSize);
 	}
-	
+	    
 	@Override
 	public void update() {
-		// TODO Auto-generated method stub
+		if(getY() < 0) {
+			bh.deleteGameObject(this);
+		}
 		
 	}
 
 	@Override
 	public void draw(PGraphics g) {
 		g.ellipseMode(g.CORNER);
-		g.fill(211, 211, 211);
-		g.stroke(128, 128, 128);
+		g.fill(0);
+		g.stroke(0);
 		g.ellipse(getX(), getY(), bulletSize, bulletSize);
 	}
 
@@ -39,9 +41,9 @@ public class Bullet extends GameObject implements ICollidableWithGameObjects {
 	public void gameObjectCollisionOccurred(List<GameObject> collidedGameObjects) {
 		for (GameObject g : collidedGameObjects) {
 			if (g instanceof Bird) {
-				hitSound.play();
-				bh.deleteGameObject(this);
-				System.out.println("Hit!");
+				//hitSound.play();
+				//bh.deleteGameObject(this);
+				//System.out.println("Hit!");
 			}
 		}
 	}

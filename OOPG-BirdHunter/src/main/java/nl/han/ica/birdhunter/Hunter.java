@@ -7,12 +7,14 @@ import nl.han.ica.OOPDProcessingEngineHAN.Collision.ICollidableWithTiles;
 import nl.han.ica.OOPDProcessingEngineHAN.Exceptions.TileNotFoundException;
 import nl.han.ica.OOPDProcessingEngineHAN.Objects.AnimatedSpriteObject;
 import nl.han.ica.OOPDProcessingEngineHAN.Objects.Sprite;
+import nl.han.ica.OOPDProcessingEngineHAN.Sound.Sound;
 import nl.han.ica.waterworld.tiles.BoardsTile;
 import processing.core.PVector;
 
 public class Hunter extends AnimatedSpriteObject {
 	
 	private BirdHunter world;
+	Sound hitSound;
 	
 	public Hunter(BirdHunter world) {
 		super(new Sprite("src/main/java/nl/han/ica/birdhunter/media/hunter-sprite.png"),3);
@@ -48,6 +50,8 @@ public class Hunter extends AnimatedSpriteObject {
 
         if (key == ' ') {
         	setCurrentFrameIndex(1);
+        	Bullet b = new Bullet(world, hitSound);
+    		world.addGameObject(b, getX() + 55, getY());
         }
     }
 

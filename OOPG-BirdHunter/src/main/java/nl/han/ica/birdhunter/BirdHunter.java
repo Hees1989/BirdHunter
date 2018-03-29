@@ -40,7 +40,7 @@ public class BirdHunter extends GameEngine {
 		
 		Bullet b = new Bullet(this, hitSound);
 		addGameObject(b, 250, this.getHeight());
-		BirdSpawner bird = new BirdSpawner(this, 5);
+		BirdSpawner bird = new BirdSpawner(this, 50);
 		Hunter h = new Hunter(this);
 		 addGameObject(h, 100, 370);
 	}

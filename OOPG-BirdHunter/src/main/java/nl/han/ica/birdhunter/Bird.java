@@ -3,6 +3,7 @@ package nl.han.ica.birdhunter;
 import java.util.List;
 import java.util.Random;
 
+import nl.han.ica.OOPDProcessingEngineHAN.Collision.ICollidableWithGameObjects;
 import nl.han.ica.OOPDProcessingEngineHAN.Objects.AnimatedSpriteObject;
 import nl.han.ica.OOPDProcessingEngineHAN.Objects.GameObject;
 import nl.han.ica.OOPDProcessingEngineHAN.Objects.Sprite;
@@ -10,7 +11,7 @@ import nl.han.ica.OOPDProcessingEngineHAN.Objects.SpriteObject;
 import nl.han.ica.waterworld.Player;
 import nl.han.ica.waterworld.Swordfish;
 
-public class Bird extends AnimatedSpriteObject {
+public class Bird extends AnimatedSpriteObject implements ICollidableWithGameObjects {
 
 	private BirdHunter world;
 	private boolean vanRechts;
@@ -88,13 +89,12 @@ public class Bird extends AnimatedSpriteObject {
 
 	}
 
+	@Override
 	public void gameObjectCollisionOccurred(List<GameObject> collidedGameObjects) {
 		for (GameObject g : collidedGameObjects) {
-			// if (g instanceof Bullet) {
-			world.deleteGameObject(this);
-			setDirectionSpeed(180, 10);
-			// }
-
+			if (g instanceof Bullet) {
+				isShot = true;
+			}
 		}
 	}
 
