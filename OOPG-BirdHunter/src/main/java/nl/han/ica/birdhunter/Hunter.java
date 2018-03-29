@@ -21,6 +21,7 @@ public class Hunter extends AnimatedSpriteObject {
 		this.world = world;
 		setCurrentFrameIndex(1);
 		setFriction(0.1f);
+		hitSound = new Sound(world, "src/main/java/nl/han/ica/birdhunter/media/pop.mp3");
 	}
 	
 	@Override

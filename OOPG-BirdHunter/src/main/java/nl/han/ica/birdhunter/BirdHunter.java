@@ -37,12 +37,10 @@ public class BirdHunter extends GameEngine {
 
 		ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
 		executor.scheduleAtFixedRate(timerRunnable, 0, 1, TimeUnit.SECONDS);
-		
-		Bullet b = new Bullet(this, hitSound);
-		addGameObject(b, 250, this.getHeight());
+	
 		BirdSpawner bird = new BirdSpawner(this, 50);
 		Hunter h = new Hunter(this);
-		 addGameObject(h, 100, 370);
+		addGameObject(h, 100, 370);
 	}
 
 	@Override
@@ -67,7 +65,7 @@ public class BirdHunter extends GameEngine {
 	}
 	
 	private void initializeSounds() {
-		hitSound = new Sound(this, "src/main/java/nl/han/ica/birdhunter/media/pop.mp3");
+		
 	}
 	
 	@Override

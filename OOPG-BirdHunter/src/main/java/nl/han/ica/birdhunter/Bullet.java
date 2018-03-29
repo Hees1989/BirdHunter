@@ -25,6 +25,7 @@ public class Bullet extends GameObject implements ICollidableWithGameObjects {
 	public void update() {
 		if(getY() < 0) {
 			bh.deleteGameObject(this);
+
 		}
 		
 	}
@@ -41,11 +42,12 @@ public class Bullet extends GameObject implements ICollidableWithGameObjects {
 	public void gameObjectCollisionOccurred(List<GameObject> collidedGameObjects) {
 		for (GameObject g : collidedGameObjects) {
 			if (g instanceof Bird) {
-				//hitSound.play();
-				//bh.deleteGameObject(this);
-				//System.out.println("Hit!");
+				hitSound.rewind();
+				hitSound.play();
+				bh.deleteGameObject(this);
+				System.out.println("Hit!");
 			}
-		}
+		} 
 	}
 	
 	
