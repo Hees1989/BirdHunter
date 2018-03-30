@@ -7,8 +7,10 @@ public class TextObject extends GameObject {
 
 	private String text;
 
-    public TextObject(String text) {
+    public TextObject(String text, int x, int y) {
         this.text=text;
+        this.x = x;
+        this.y = y;
     }
 
     public void setText(String text) {
@@ -25,7 +27,7 @@ public class TextObject extends GameObject {
 	public void draw(PGraphics g) {
 		g.textAlign(g.LEFT,g.TOP);
         g.textSize(50);
-        g.text(text,getX(),getY());
+        g.text(text, x, y);
 	}
 
 }

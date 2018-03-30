@@ -1,18 +1,28 @@
 package nl.han.ica.birdhunter;
 
 import java.awt.event.KeyEvent;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import nl.han.ica.OOPDProcessingEngineHAN.Alarm.Alarm;
+import nl.han.ica.OOPDProcessingEngineHAN.Alarm.IAlarmListener;
 import nl.han.ica.OOPDProcessingEngineHAN.Dashboard.Dashboard;
 import nl.han.ica.OOPDProcessingEngineHAN.Engine.GameEngine;
 import nl.han.ica.OOPDProcessingEngineHAN.Sound.Sound;
 import nl.han.ica.OOPDProcessingEngineHAN.View.View;
 
+@SuppressWarnings("serial")
 public class BirdHunter extends GameEngine {
 	Sound hitSound;
 	int countDown = 60;
+	int numberOfHits = 0;
+	boolean gameOn;
+	TextObject scoreText;
+	TextObject timeText;
+	Timer timer;
 
 	public static void main(String[] args) {
 		BirdHunter bh = new BirdHunter();
@@ -23,29 +33,42 @@ public class BirdHunter extends GameEngine {
 	public void setupGame() {
 		int worldWidth = 1200;
 		int worldHeight = 675;
+		
 		createView(worldWidth, worldHeight);
 		createDashboard(worldWidth, 50);
 		initializeSounds();
-		
-		Runnable timerRunnable = new Runnable() {
+		startGame();
+		/*Runnable timerRunnable = new Runnable() {
 		    public void run() {
-		        System.out.println(countDown);
 		        text(countDown, 100, 100);
 		        countDown--;
 		    }
 		};
 
 		ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-		executor.scheduleAtFixedRate(timerRunnable, 0, 1, TimeUnit.SECONDS);
+		executor.scheduleAtFixedRate(timerRunnable, 0, 1, TimeUnit.SECONDS);*/
 	
 		BirdSpawner bird = new BirdSpawner(this, 50);
 		Hunter h = new Hunter(this);
 		addGameObject(h, 100, 370);
 	}
 
+	private void startGame() {
+		gameOn = true;
+		timer = new Timer();
+		timer.schedule(new TimerTask() {
+			int seconds = 60;
+			
+			@Override
+			public void run() {
+				timeText.setText("" + seconds);
+				seconds --;
+			}
+		}, 0, 1000);
+	}
+
 	@Override
 	public void update() {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -58,8 +81,10 @@ public class BirdHunter extends GameEngine {
 	
 	private void createDashboard(int dashboardWidth, int dashboardHeight) {
 		Dashboard db = new Dashboard(0, 0, dashboardWidth, dashboardHeight);
-		TextObject timeText = new TextObject("test");
+		scoreText = new TextObject("score", 20, 0);
+		timeText = new TextObject("test", 220, 0);
 		db.setBackground(255, 0, 0);
+		db.addGameObject(scoreText);
 		db.addGameObject(timeText);
 		this.addDashboard(db);
 	}
@@ -71,11 +96,24 @@ public class BirdHunter extends GameEngine {
 	@Override
 	public void keyReleased(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_E) {
-			this.pauseGame();
-			System.out.println("Paused");
+			if (gameOn) {
+				this.pauseGame();
+				gameOn = false;
+			} else {
+				this.resumeGame();
+				gameOn = true;
+			}
 		} else if (e.getKeyCode() == KeyEvent.VK_R) {
 			this.resumeGame();
-			System.out.println("Resume");
 		}
+	}
+
+	public void increaseHits() {
+		numberOfHits++;
+		refreshDashboard();
+	}
+
+	private void refreshDashboard() {
+		scoreText.setText("" + numberOfHits);
 	}
 }

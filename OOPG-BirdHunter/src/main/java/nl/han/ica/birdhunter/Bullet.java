@@ -45,6 +45,7 @@ public class Bullet extends GameObject implements ICollidableWithGameObjects {
 				hitSound.rewind();
 				hitSound.play();
 				bh.deleteGameObject(this);
+				bh.increaseHits();
 				System.out.println("Hit!");
 			}
 		} 

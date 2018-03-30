@@ -8,10 +8,10 @@ import nl.han.ica.OOPDProcessingEngineHAN.Alarm.IAlarmListener;
 public class BirdSpawner implements IAlarmListener {
 
 	private float birdsPerSecond;
-	private BirdHunter world;
+	private BirdHunter bh;
 
-	public BirdSpawner(BirdHunter world, float birdsPerSecond) {
-		this.world = world;
+	public BirdSpawner(BirdHunter bh, float birdsPerSecond) {
+		this.bh = bh;
 		this.birdsPerSecond = birdsPerSecond;
 		startAlarm();
 
@@ -25,8 +25,8 @@ public class BirdSpawner implements IAlarmListener {
 
 	@Override
 	public void triggerAlarm(String alarmName) {
-		Bird b = new Bird(world);
-		world.addGameObject(b);
+		Bird b = new Bird(bh);
+		bh.addGameObject(b);
 		startAlarm();
 	}
 
