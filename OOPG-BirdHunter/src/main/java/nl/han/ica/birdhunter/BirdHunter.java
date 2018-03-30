@@ -38,15 +38,6 @@ public class BirdHunter extends GameEngine {
 		createDashboard(worldWidth, 50);
 		initializeSounds();
 		startGame();
-		/*Runnable timerRunnable = new Runnable() {
-		    public void run() {
-		        text(countDown, 100, 100);
-		        countDown--;
-		    }
-		};
-
-		ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-		executor.scheduleAtFixedRate(timerRunnable, 0, 1, TimeUnit.SECONDS);*/
 	
 		BirdSpawner bird = new BirdSpawner(this, 50);
 		Hunter h = new Hunter(this);
