@@ -7,6 +7,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import javax.swing.JOptionPane;
+
 import nl.han.ica.OOPDProcessingEngineHAN.Alarm.Alarm;
 import nl.han.ica.OOPDProcessingEngineHAN.Alarm.IAlarmListener;
 import nl.han.ica.OOPDProcessingEngineHAN.Dashboard.Dashboard;
@@ -19,7 +21,6 @@ public class BirdHunter extends GameEngine {
 	Sound hitSound;
 	int countDown = 60;
 	int numberOfHits = 0;
-	boolean gameOn;
 	TextObject scoreText;
 	TextObject timeText;
 	Timer timer;
@@ -38,14 +39,13 @@ public class BirdHunter extends GameEngine {
 		createDashboard(worldWidth, 50);
 		initializeSounds();
 		startGame();
-	
+		
 		BirdSpawner bird = new BirdSpawner(this, 50);
 		Hunter h = new Hunter(this);
 		addGameObject(h, 100, 370);
 	}
 
 	private void startGame() {
-		gameOn = true;
 		timer = new Timer();
 		timer.schedule(new TimerTask() {
 			int seconds = 60;
@@ -86,16 +86,14 @@ public class BirdHunter extends GameEngine {
 	
 	@Override
 	public void keyReleased(KeyEvent e) {
+		boolean isGamePaused = this.getThreadState();
 		if (e.getKeyCode() == KeyEvent.VK_E) {
-			if (gameOn) {
+			if (!isGamePaused) {
 				this.pauseGame();
-				gameOn = false;
+				JOptionPane.showMessageDialog(frame, "Druk op ok..");
 			} else {
 				this.resumeGame();
-				gameOn = true;
 			}
-		} else if (e.getKeyCode() == KeyEvent.VK_R) {
-			this.resumeGame();
 		}
 	}
 
