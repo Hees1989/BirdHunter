@@ -24,9 +24,10 @@ import processing.core.PImage;
 @SuppressWarnings("serial")
 public class BirdHunter extends GameEngine {
 	Sound hitSound;
+	Hunter h;
 	int countDown = 60;
 	int numberOfHits = 0;
-	int ammo = 10;
+	int ammo;
 	TextObject scoreText;
 	TextObject timeText;
 	TextObject ammoText;
@@ -43,16 +44,12 @@ public class BirdHunter extends GameEngine {
 		int worldWidth = 1200;
 		int worldHeight = 675;
 		
-		
 		createView(worldWidth, worldHeight);
 		createDashboard(worldWidth, 50);
 		initializeSounds();
+		intializeObjects();
 		startGame();
-		Chest c = new Chest(this);
-		addGameObject(c, 50, height - height/4 - 20);
-		BirdSpawner bird = new BirdSpawner(this, 20);
-		Hunter h = new Hunter(this);
-		addGameObject(h, width/2, height - (height/3) - 80);
+		
 		
 	}
 
@@ -72,6 +69,7 @@ public class BirdHunter extends GameEngine {
 	@Override
 	public void update() {
 		refreshDashboard();
+		ammo = h.getAmmo();
 	}
 
 	private void createView(int worldWidth, int worldHeight) {
@@ -97,6 +95,14 @@ public class BirdHunter extends GameEngine {
 		
 	}
 	
+	private void intializeObjects() {
+		Chest c = new Chest(this);
+		addGameObject(c, 50, height - height/4 - 20);
+		BirdSpawner bird = new BirdSpawner(this, 20);
+		h = new Hunter(this);
+		addGameObject(h, width/2, height - (height/3) - 80);
+	}
+	
 	@Override
 	public void keyReleased(KeyEvent e) {
 		boolean isGamePaused = this.getThreadState();
@@ -113,15 +119,7 @@ public class BirdHunter extends GameEngine {
 	public void increaseHits() {
 		numberOfHits++;
 	}
-	
-	public void setAmmo(int ammo) {
-		this.ammo = ammo;
-		
-	}
-	
-	public int getAmmo() {
-	    return ammo;
-	}
+
 
 	private void refreshDashboard() {
 		scoreText.setText("score: " + numberOfHits);
