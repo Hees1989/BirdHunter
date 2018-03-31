@@ -19,6 +19,7 @@ import nl.han.ica.OOPDProcessingEngineHAN.Tile.TileMap;
 import nl.han.ica.OOPDProcessingEngineHAN.Tile.TileType;
 import nl.han.ica.OOPDProcessingEngineHAN.View.View;
 import nl.han.ica.waterworld.tiles.BoardsTile;
+import processing.core.PImage;
 
 @SuppressWarnings("serial")
 public class BirdHunter extends GameEngine {
@@ -47,12 +48,12 @@ public class BirdHunter extends GameEngine {
 		createDashboard(worldWidth, 50);
 		initializeSounds();
 		startGame();
-		
+		Chest c = new Chest(this);
+		addGameObject(c, 50, height - height/4 - 20);
 		BirdSpawner bird = new BirdSpawner(this, 20);
 		Hunter h = new Hunter(this);
-		addGameObject(h, width/2, 370);
-		Chest c = new Chest(this);
-		addGameObject(c, 50, 490);
+		addGameObject(h, width/2, height - (height/3) - 80);
+		
 	}
 
 	private void startGame() {
