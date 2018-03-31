@@ -13,7 +13,7 @@ import nl.han.ica.waterworld.Swordfish;
 
 public class Bird extends AnimatedSpriteObject implements ICollidableWithGameObjects {
 
-	private BirdHunter world;
+	private BirdHunter bh;
 	private boolean vanRechts;
 	private Random random;
 	private float birdY;
@@ -21,7 +21,7 @@ public class Bird extends AnimatedSpriteObject implements ICollidableWithGameObj
 
 	public Bird(BirdHunter world) {
 		super(new Sprite("src/main/java/nl/han/ica/birdhunter/media/bird.png"), 4);
-		this.world = world;
+		this.bh = world;
 		random = new Random();
 		setCurrentFrameIndex(1);
 		vanRechts = Math.random() < 0.5;
@@ -53,29 +53,29 @@ public class Bird extends AnimatedSpriteObject implements ICollidableWithGameObj
 	public void update() {
 		if (vanRechts) {
 			setDirectionSpeed(90, 7);
-			if (getX() > world.getWidth()) {
-				world.deleteGameObject(this);
+			if (getX() > bh.getWidth()) {
+				bh.deleteGameObject(this);
 			}
 			
 			if(isShot) {
 				setDirectionSpeed(160, 20);
 				setCurrentFrameIndex(3);
-				if (getY() > world.getHeight() - 200) {
-					world.deleteGameObject(this);
+				if (getY() > bh.getHeight() - 200) {
+					bh.deleteGameObject(this);
 				}
 			}
 
 		} else {
 			setDirectionSpeed(270, 7);
 			if (getX() < -100) {
-				world.deleteGameObject(this);
+				bh.deleteGameObject(this);
 			}
 			
 			if(isShot) {
 				setDirectionSpeed(200, 20);
 				setCurrentFrameIndex(0);
-				if (getY() > world.getHeight() - 200) {
-					world.deleteGameObject(this);
+				if (getY() > bh.getHeight() - 200) {
+					bh.deleteGameObject(this);
 				}
 			}
 		}
@@ -83,7 +83,7 @@ public class Bird extends AnimatedSpriteObject implements ICollidableWithGameObj
 
 	public void keyPressed(int keyCode, char key) {
 		final int speed = 5;
-		if (keyCode == world.DOWN) {
+		if (keyCode == bh.DOWN) {
 			isShot = true;
 		}
 

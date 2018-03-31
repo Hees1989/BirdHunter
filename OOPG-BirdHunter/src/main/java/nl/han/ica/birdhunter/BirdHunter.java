@@ -13,17 +13,24 @@ import nl.han.ica.OOPDProcessingEngineHAN.Alarm.Alarm;
 import nl.han.ica.OOPDProcessingEngineHAN.Alarm.IAlarmListener;
 import nl.han.ica.OOPDProcessingEngineHAN.Dashboard.Dashboard;
 import nl.han.ica.OOPDProcessingEngineHAN.Engine.GameEngine;
+import nl.han.ica.OOPDProcessingEngineHAN.Objects.Sprite;
 import nl.han.ica.OOPDProcessingEngineHAN.Sound.Sound;
+import nl.han.ica.OOPDProcessingEngineHAN.Tile.TileMap;
+import nl.han.ica.OOPDProcessingEngineHAN.Tile.TileType;
 import nl.han.ica.OOPDProcessingEngineHAN.View.View;
+import nl.han.ica.waterworld.tiles.BoardsTile;
 
 @SuppressWarnings("serial")
 public class BirdHunter extends GameEngine {
 	Sound hitSound;
 	int countDown = 60;
 	int numberOfHits = 0;
+	int ammo = 10;
 	TextObject scoreText;
 	TextObject timeText;
+	TextObject ammoText;
 	Timer timer;
+	
 
 	public static void main(String[] args) {
 		BirdHunter bh = new BirdHunter();
@@ -35,14 +42,17 @@ public class BirdHunter extends GameEngine {
 		int worldWidth = 1200;
 		int worldHeight = 675;
 		
+		
 		createView(worldWidth, worldHeight);
 		createDashboard(worldWidth, 50);
 		initializeSounds();
 		startGame();
 		
-		BirdSpawner bird = new BirdSpawner(this, 50);
+		BirdSpawner bird = new BirdSpawner(this, 20);
 		Hunter h = new Hunter(this);
-		addGameObject(h, 100, 370);
+		addGameObject(h, width/2, 370);
+		Chest c = new Chest(this);
+		addGameObject(c, 50, 490);
 	}
 
 	private void startGame() {
@@ -52,7 +62,7 @@ public class BirdHunter extends GameEngine {
 			
 			@Override
 			public void run() {
-				timeText.setText("" + seconds);
+				timeText.setText("Time left: " + seconds);
 				seconds --;
 			}
 		}, 0, 1000);
@@ -60,7 +70,7 @@ public class BirdHunter extends GameEngine {
 
 	@Override
 	public void update() {
-		
+		refreshDashboard();
 	}
 
 	private void createView(int worldWidth, int worldHeight) {
@@ -72,11 +82,13 @@ public class BirdHunter extends GameEngine {
 	
 	private void createDashboard(int dashboardWidth, int dashboardHeight) {
 		Dashboard db = new Dashboard(0, 0, dashboardWidth, dashboardHeight);
-		scoreText = new TextObject("score", 20, 0);
-		timeText = new TextObject("test", 220, 0);
-		db.setBackground(255, 0, 0);
+		scoreText = new TextObject("score: " + numberOfHits, 20, 0);
+		timeText = new TextObject("Time left: ", 200, 0);
+		ammoText = new TextObject("ammo: " + ammo, 450, 0);
+//		db.setBackground(100, 100, 100);
 		db.addGameObject(scoreText);
 		db.addGameObject(timeText);
+		db.addGameObject(ammoText);
 		this.addDashboard(db);
 	}
 	
@@ -99,10 +111,21 @@ public class BirdHunter extends GameEngine {
 
 	public void increaseHits() {
 		numberOfHits++;
-		refreshDashboard();
+	}
+	
+	public void setAmmo(int ammo) {
+		this.ammo = ammo;
+		
+	}
+	
+	public int getAmmo() {
+	    return ammo;
 	}
 
 	private void refreshDashboard() {
-		scoreText.setText("" + numberOfHits);
+		scoreText.setText("score: " + numberOfHits);
+		ammoText.setText("ammo: " + ammo);
 	}
+	
+	
 }

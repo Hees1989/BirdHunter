@@ -26,7 +26,7 @@ public class TextObject extends GameObject {
 	@Override
 	public void draw(PGraphics g) {
 		g.textAlign(g.LEFT,g.TOP);
-        g.textSize(50);
+        g.textSize(30);
         g.text(text, x, y);
 	}
 

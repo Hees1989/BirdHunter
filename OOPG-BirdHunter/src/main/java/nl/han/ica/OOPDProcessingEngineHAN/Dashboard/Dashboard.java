@@ -215,6 +215,7 @@ public class Dashboard extends GameObject {
 		backgroundG = g;
 		backgroundB = b;
 	}
+	
 
 	/**
 	 * Set the background of the Dashboard with a Sprite object (image).
