@@ -13,6 +13,7 @@ import nl.han.ica.OOPDProcessingEngineHAN.Alarm.Alarm;
 import nl.han.ica.OOPDProcessingEngineHAN.Alarm.IAlarmListener;
 import nl.han.ica.OOPDProcessingEngineHAN.Dashboard.Dashboard;
 import nl.han.ica.OOPDProcessingEngineHAN.Engine.GameEngine;
+import nl.han.ica.OOPDProcessingEngineHAN.Engine.GameThread;
 import nl.han.ica.OOPDProcessingEngineHAN.Objects.Sprite;
 import nl.han.ica.OOPDProcessingEngineHAN.Sound.Sound;
 import nl.han.ica.OOPDProcessingEngineHAN.Tile.TileMap;
@@ -28,9 +29,12 @@ public class BirdHunter extends GameEngine {
 	int countDown = 60;
 	int numberOfHits = 0;
 	int ammo;
+	int level = 1;
+	int seconds = 60;
 	TextObject scoreText;
 	TextObject timeText;
 	TextObject ammoText;
+	TextObject levelText;
 	Timer timer;
 	Sound backgroundSound;
 
@@ -48,19 +52,22 @@ public class BirdHunter extends GameEngine {
 		createDashboard(worldWidth, 50);
 		initializeSounds();
 		intializeObjects();
-		startGame();
-
+		startTimer();
 	}
 
-	private void startGame() {
+	private void startTimer() {
 		timer = new Timer();
 		timer.schedule(new TimerTask() {
-			int seconds = 60;
 
 			@Override
 			public void run() {
 				timeText.setText("Time left: " + seconds);
-				seconds--;
+				if (seconds != 0) {
+					seconds--;
+				} else {
+					JOptionPane.showMessageDialog(frame, "Helaas.. De tijd is op");
+					System.exit(0);
+				}
 			}
 		}, 0, 1000);
 	}
@@ -83,10 +90,12 @@ public class BirdHunter extends GameEngine {
 		scoreText = new TextObject("score: " + numberOfHits, 20, 0);
 		timeText = new TextObject("Time left: ", 200, 0);
 		ammoText = new TextObject("ammo: " + ammo, 450, 0);
+		levelText = new TextObject("level: " + level, 700, 0);
 		// db.setBackground(100, 100, 100);
 		db.addGameObject(scoreText);
 		db.addGameObject(timeText);
 		db.addGameObject(ammoText);
+		db.addGameObject(levelText);
 		this.addDashboard(db);
 	}
 
@@ -118,12 +127,19 @@ public class BirdHunter extends GameEngine {
 	}
 
 	public void increaseHits() {
-		numberOfHits++;
+		if (numberOfHits != level * 10 - 1) {
+			numberOfHits++;
+		} else {
+			numberOfHits = 0;
+			level++;
+			seconds = 60;
+		}
 	}
 
 	private void refreshDashboard() {
-		scoreText.setText("score: " + numberOfHits);
+		scoreText.setText("score: " + numberOfHits + "/" + level * 10);
 		ammoText.setText("ammo: " + ammo);
+		levelText.setText("level: " + level);
 	}
 
 }
