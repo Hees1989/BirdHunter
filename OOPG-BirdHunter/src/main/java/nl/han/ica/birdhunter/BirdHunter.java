@@ -32,6 +32,7 @@ public class BirdHunter extends GameEngine {
 	TextObject timeText;
 	TextObject ammoText;
 	Timer timer;
+	Sound backgroundSound;
 
 	public static void main(String[] args) {
 		BirdHunter bh = new BirdHunter();
@@ -73,7 +74,7 @@ public class BirdHunter extends GameEngine {
 	private void createView(int worldWidth, int worldHeight) {
 		View view = new View(worldWidth, worldHeight);
 		size(worldWidth, worldHeight);
-		view.setBackground(loadImage("src/main/java/nl/han/ica/birdhunter/media/background1.jpg"));
+		view.setBackground(loadImage("src/main/java/nl/han/ica/birdhunter/media/dark-background.jpg"));
 		setView(view);
 	}
 
@@ -90,6 +91,8 @@ public class BirdHunter extends GameEngine {
 	}
 
 	private void initializeSounds() {
+		backgroundSound = new Sound(this, "src/main/java/nl/han/ica/birdhunter/media/dark-background.mp3");
+		backgroundSound.loop(-1);
 
 	}
 
