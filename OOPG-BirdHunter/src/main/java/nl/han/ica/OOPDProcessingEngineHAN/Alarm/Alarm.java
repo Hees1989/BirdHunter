@@ -63,8 +63,8 @@ public class Alarm {
 	}
 
 	/**
-	 * Add a new object that implements the IAlarmListener interface to listen
-	 * to the alarm.
+	 * Add a new object that implements the IAlarmListener interface to listen to
+	 * the alarm.
 	 * 
 	 * @param alarm
 	 */
@@ -73,8 +73,8 @@ public class Alarm {
 	}
 
 	/**
-	 * Remove a object that implements the IAlarmListener interface from the
-	 * alarm to stop listening.
+	 * Remove a object that implements the IAlarmListener interface from the alarm
+	 * to stop listening.
 	 * 
 	 * @param alarm
 	 */

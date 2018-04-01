@@ -1,6 +1,8 @@
 package nl.han.ica.birdhunter;
 
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import nl.han.ica.OOPDProcessingEngineHAN.Collision.CollidedTile;
 import nl.han.ica.OOPDProcessingEngineHAN.Collision.ICollidableWithGameObjects;
@@ -28,7 +30,6 @@ public class Hunter extends AnimatedSpriteObject implements ICollidableWithGameO
 		this.bh = bh;
 		setCurrentFrameIndex(1);
 		setFriction(0.1f);
-
 		setAmmo = 10;
 		ammo = setAmmo;
 		bulletSound = new Sound(bh, "src/main/java/nl/han/ica/birdhunter/media/gun.mp3");
@@ -46,8 +47,10 @@ public class Hunter extends AnimatedSpriteObject implements ICollidableWithGameO
 			setxSpeed(0);
 			setX(bh.getWidth() - 100);
 		}
+		isHunterOnChest = false;
 	}
 
+	@Override
 	public void keyPressed(int keyCode, char key) {
 		boolean isGamePaused = bh.getThreadState();
 
@@ -64,13 +67,22 @@ public class Hunter extends AnimatedSpriteObject implements ICollidableWithGameO
 
 			if (key == ' ') {
 				setCurrentFrameIndex(1);
-
-				if (ammo > 0) {
+				if (ammo > 0 && !isHunterOnChest) {
 					Bullet b = new Bullet(bh);
-					bh.addGameObject(b, getX() + 55, getY());
+					;
 					bulletSound.rewind();
 					bulletSound.play();
 					ammo--;
+					bh.addGameObject(b, getX() + 55, getY());
+				}
+			}
+			if (key == 'r' || key == 'R') {
+				if (isHunterOnChest) {
+					if (ammo < setAmmo) {
+						ammo = setAmmo;
+						reload.rewind();
+						reload.play();
+					}
 				}
 			}
 		}
@@ -80,12 +92,7 @@ public class Hunter extends AnimatedSpriteObject implements ICollidableWithGameO
 	public void gameObjectCollisionOccurred(List<GameObject> collidedGameObjects) {
 		for (GameObject g : collidedGameObjects) {
 			if (g instanceof Chest) {
-				
-				if (ammo < setAmmo) {
-					ammo = setAmmo;
-					reload.rewind();
-					reload.play();
-				}
+				isHunterOnChest = true;
 			}
 		}
 

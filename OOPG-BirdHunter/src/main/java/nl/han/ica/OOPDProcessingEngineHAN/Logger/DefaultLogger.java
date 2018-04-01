@@ -39,6 +39,7 @@ public final class DefaultLogger implements Logger {
 
 	/**
 	 * Checks if the given integer an valid log option.
+	 * 
 	 * @param level
 	 * @return
 	 */
@@ -57,13 +58,14 @@ public final class DefaultLogger implements Logger {
 
 	/**
 	 * Logs the message with an log option.
+	 * 
 	 * @param level
 	 * @param message
 	 * @return true when method was successful
 	 */
 	@Override
 	public boolean logln(int level, String message) {
-		
+
 		// Valid log level?
 		if (!isValidLogLevel(level)) {
 			return false;

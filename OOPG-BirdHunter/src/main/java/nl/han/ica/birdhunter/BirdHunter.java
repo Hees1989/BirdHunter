@@ -32,36 +32,34 @@ public class BirdHunter extends GameEngine {
 	TextObject timeText;
 	TextObject ammoText;
 	Timer timer;
-	
 
 	public static void main(String[] args) {
 		BirdHunter bh = new BirdHunter();
 		bh.runSketch();
 	}
-	
+
 	@Override
 	public void setupGame() {
 		int worldWidth = 1366;
 		int worldHeight = 768;
-		
+
 		createView(worldWidth, worldHeight);
 		createDashboard(worldWidth, 50);
 		initializeSounds();
 		intializeObjects();
 		startGame();
-		
-		
+
 	}
 
 	private void startGame() {
 		timer = new Timer();
 		timer.schedule(new TimerTask() {
 			int seconds = 60;
-			
+
 			@Override
 			public void run() {
 				timeText.setText("Time left: " + seconds);
-				seconds --;
+				seconds--;
 			}
 		}, 0, 1000);
 	}
@@ -78,31 +76,31 @@ public class BirdHunter extends GameEngine {
 		view.setBackground(loadImage("src/main/java/nl/han/ica/birdhunter/media/background1.jpg"));
 		setView(view);
 	}
-	
+
 	private void createDashboard(int dashboardWidth, int dashboardHeight) {
 		Dashboard db = new Dashboard(0, 0, dashboardWidth, dashboardHeight);
 		scoreText = new TextObject("score: " + numberOfHits, 20, 0);
 		timeText = new TextObject("Time left: ", 200, 0);
 		ammoText = new TextObject("ammo: " + ammo, 450, 0);
-//		db.setBackground(100, 100, 100);
+		// db.setBackground(100, 100, 100);
 		db.addGameObject(scoreText);
 		db.addGameObject(timeText);
 		db.addGameObject(ammoText);
 		this.addDashboard(db);
 	}
-	
+
 	private void initializeSounds() {
-		
+
 	}
-	
+
 	private void intializeObjects() {
 		Chest c = new Chest(this);
-		addGameObject(c, 50, height - height/4);
+		addGameObject(c, 50, height - height / 4);
 		BirdSpawner bird = new BirdSpawner(this, 50, 5);
 		h = new Hunter(this);
-		addGameObject(h, width/2, height - (height/3)-15);
+		addGameObject(h, width / 2, height - (height / 3) - 15);
 	}
-	
+
 	@Override
 	public void keyReleased(KeyEvent e) {
 		boolean isGamePaused = this.getThreadState();
@@ -124,5 +122,5 @@ public class BirdHunter extends GameEngine {
 		scoreText.setText("score: " + numberOfHits);
 		ammoText.setText("ammo: " + ammo);
 	}
-	
+
 }

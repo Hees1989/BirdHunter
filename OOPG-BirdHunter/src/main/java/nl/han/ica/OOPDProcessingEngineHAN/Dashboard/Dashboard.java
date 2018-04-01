@@ -54,8 +54,7 @@ public class Dashboard extends GameObject {
 	 */
 	private PGraphics drawCanvas() {
 
-		PGraphics canvas = pGraphicsCreator.createPGraphics(
-				(int) this.getWidth(), (int) this.getHeight());
+		PGraphics canvas = pGraphicsCreator.createPGraphics((int) this.getWidth(), (int) this.getHeight());
 
 		canvas.beginDraw();
 		canvas.noStroke();
@@ -67,7 +66,8 @@ public class Dashboard extends GameObject {
 	}
 
 	/**
-	 * Draw the dashboardObjects from type GameObject on the canvas which are set visible.
+	 * Draw the dashboardObjects from type GameObject on the canvas which are set
+	 * visible.
 	 */
 	private void drawObjectsTo(PGraphics canvas) {
 
@@ -78,18 +78,19 @@ public class Dashboard extends GameObject {
 
 	/**
 	 * Actually draws GameObjects that are set visible to the Dashboard.
+	 * 
 	 * @param canvas
 	 * @param i
 	 */
 	private void drawVisibleGameObjects(PGraphics canvas, int i) {
-		if(gameObjects.get(i).isVisible()) {
-            gameObjects.get(i).draw(canvas);
-        }
+		if (gameObjects.get(i).isVisible()) {
+			gameObjects.get(i).draw(canvas);
+		}
 	}
 
 	/**
-	 * Sets background for the dashboard. RGB when backgroundActive is false,
-	 * Image when backgroundActive is true.
+	 * Sets background for the dashboard. RGB when backgroundActive is false, Image
+	 * when backgroundActive is true.
 	 */
 	private void setBackgroundFor(PGraphics canvas) {
 
@@ -106,9 +107,9 @@ public class Dashboard extends GameObject {
 	 * Add a GameObject to the Dashboard.
 	 *
 	 * @param gameObject
-	 *            The GameObject that will be added to the canvas. Sets the X
-	 *            and Y relatively to the canvas, so the GameObjects will move
-	 *            with the Dashboard.
+	 *            The GameObject that will be added to the canvas. Sets the X and Y
+	 *            relatively to the canvas, so the GameObjects will move with the
+	 *            Dashboard.
 	 */
 	public void addGameObject(GameObject gameObject) {
 
@@ -141,8 +142,7 @@ public class Dashboard extends GameObject {
 	 * @param y
 	 * @param layerposition
 	 */
-	public void addGameObject(GameObject gameObject, int x, int y,
-			float layerposition) {
+	public void addGameObject(GameObject gameObject, int x, int y, float layerposition) {
 
 		gameObjects.add(gameObject);
 
@@ -215,7 +215,6 @@ public class Dashboard extends GameObject {
 		backgroundG = g;
 		backgroundB = b;
 	}
-	
 
 	/**
 	 * Set the background of the Dashboard with a Sprite object (image).
