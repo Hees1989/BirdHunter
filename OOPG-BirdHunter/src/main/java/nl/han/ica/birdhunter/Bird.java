@@ -18,19 +18,21 @@ public class Bird extends AnimatedSpriteObject implements ICollidableWithGameObj
 	private Random random;
 	private float birdY;
 	private boolean isShot;
+	private int speed;
 
-	public Bird(BirdHunter world) {
+	public Bird(BirdHunter world, int speed) {
 		super(new Sprite("src/main/java/nl/han/ica/birdhunter/media/bird.png"), 4);
 		this.bh = world;
+		this.speed = speed;
 		random = new Random();
 		setCurrentFrameIndex(1);
 		vanRechts = Math.random() < 0.5;
 		direction();
-
+		
 	}
 
 	private void direction() {
-		birdY = random.nextInt(300) + 10;
+		birdY = random.nextInt(250) + 10;
 		setY(birdY);
 		if (vanRechts) {
 			setX(0);
@@ -42,17 +44,10 @@ public class Bird extends AnimatedSpriteObject implements ICollidableWithGameObj
 
 	}
 
-	/**
-	 * Maak een Bird aan met een sprite
-	 * 
-	 * @param sprite
-	 *            De sprite die aan dit object gekoppeld moet worden
-	 */
-
 	@Override
 	public void update() {
 		if (vanRechts) {
-			setDirectionSpeed(90, 7);
+			setDirectionSpeed(90, speed);
 			if (getX() > bh.getWidth()) {
 				bh.deleteGameObject(this);
 			}
@@ -66,7 +61,7 @@ public class Bird extends AnimatedSpriteObject implements ICollidableWithGameObj
 			}
 
 		} else {
-			setDirectionSpeed(270, 7);
+			setDirectionSpeed(270, speed);
 			if (getX() < -100) {
 				bh.deleteGameObject(this);
 			}
@@ -79,14 +74,6 @@ public class Bird extends AnimatedSpriteObject implements ICollidableWithGameObj
 				}
 			}
 		}
-	}
-
-	public void keyPressed(int keyCode, char key) {
-		final int speed = 5;
-		if (keyCode == bh.DOWN) {
-			isShot = true;
-		}
-
 	}
 
 	@Override

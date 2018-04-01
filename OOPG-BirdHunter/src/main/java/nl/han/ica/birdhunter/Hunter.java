@@ -15,79 +15,89 @@ import nl.han.ica.waterworld.tiles.BoardsTile;
 import processing.core.PVector;
 
 public class Hunter extends AnimatedSpriteObject implements ICollidableWithGameObjects {
-	
+
 	private BirdHunter bh;
-	private Sound hitSound;
+	private Sound bulletSound;
+	private Sound reload;
 	private boolean isHunterOnChest;
 	private int ammo;
-	
+	private int setAmmo;
+
 	public Hunter(BirdHunter bh) {
-		super(new Sprite("src/main/java/nl/han/ica/birdhunter/media/hunter-sprite.png"),3);
+		super(new Sprite("src/main/java/nl/han/ica/birdhunter/media/hunter-sprite.png"), 3);
 		this.bh = bh;
 		setCurrentFrameIndex(1);
 		setFriction(0.1f);
-		hitSound = new Sound(bh, "src/main/java/nl/han/ica/birdhunter/media/pop.mp3");
-		this.ammo = 10;
+
+		setAmmo = 10;
+		ammo = setAmmo;
+		bulletSound = new Sound(bh, "src/main/java/nl/han/ica/birdhunter/media/gun.mp3");
+		reload = new Sound(bh, "src/main/java/nl/han/ica/birdhunter/media/reload.mp3");
+
 	}
-	
+
 	@Override
 	public void update() {
-        if (getX()<=0) {
-            setxSpeed(0);
-            setX(0);
-        }
-        if (getX()>=bh.getWidth()-100) {
-            setxSpeed(0);
-            setX(bh.getWidth() - 100);
-        }
-        
+		if (getX() <= 0) {
+			setxSpeed(0);
+			setX(0);
+		}
+		if (getX() >= bh.getWidth() - 100) {
+			setxSpeed(0);
+			setX(bh.getWidth() - 100);
+		}
+	}
 
-    }
-	
 	public void keyPressed(int keyCode, char key) {
 		boolean isGamePaused = bh.getThreadState();
-		
+
 		if (!isGamePaused) {
 			if (keyCode == bh.LEFT) {
-	            setDirectionSpeed(270, 15);
-	            setCurrentFrameIndex(0);
-	        }
+				setDirectionSpeed(270, 15);
+				setCurrentFrameIndex(0);
+			}
 
-	        if (keyCode == bh.RIGHT) {
-	        	setDirectionSpeed(90, 15);
-	            setCurrentFrameIndex(2);
-	        }
+			if (keyCode == bh.RIGHT) {
+				setDirectionSpeed(90, 15);
+				setCurrentFrameIndex(2);
+			}
 
-	        if (key == ' ') {
-	        	setCurrentFrameIndex(1);
-	        	
-	    		if(ammo > 0) {
-	    			Bullet b = new Bullet(bh, hitSound);
-		    		bh.addGameObject(b, getX() + 55, getY());
-	    		ammo--;
-	    		}
-	        }
+			if (key == ' ') {
+				setCurrentFrameIndex(1);
+
+				if (ammo > 0) {
+					Bullet b = new Bullet(bh);
+					bh.addGameObject(b, getX() + 55, getY());
+					bulletSound.rewind();
+					bulletSound.play();
+					ammo--;
+				}
+			}
 		}
-    }
-	
+	}
+
 	@Override
 	public void gameObjectCollisionOccurred(List<GameObject> collidedGameObjects) {
 		for (GameObject g : collidedGameObjects) {
-            if (g instanceof Chest) {
-            ammo = 10;
-            }
-        }
-			
-    }
-	
+			if (g instanceof Chest) {
+				
+				if (ammo < setAmmo) {
+					ammo = setAmmo;
+					reload.rewind();
+					reload.play();
+				}
+			}
+		}
+
+	}
+
 	public void setAmmo(int ammo) {
 		this.ammo = ammo;
-		
+
 	}
-	
+
 	public int getAmmo() {
-	    return ammo;
+		return ammo;
 	}
-	
 
 }

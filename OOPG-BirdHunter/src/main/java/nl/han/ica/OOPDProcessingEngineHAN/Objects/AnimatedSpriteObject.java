@@ -11,12 +11,12 @@ import processing.core.PImage;
  */
 public abstract class AnimatedSpriteObject extends SpriteObject {
 
-	private Rectangle currentFrame;
+	protected Rectangle currentFrame;
 	
-	private int currentFrameIndex;
-	private int totalFrames;
+	protected int currentFrameIndex;
+	protected int totalFrames;
 	
-	private int frameWidth;
+	protected int frameWidth;
 	
 	/**
 	 * Create a new AnimatedSpriteObject with a Sprite and set the amount of total frames.

@@ -41,8 +41,8 @@ public class BirdHunter extends GameEngine {
 	
 	@Override
 	public void setupGame() {
-		int worldWidth = 1200;
-		int worldHeight = 675;
+		int worldWidth = 1366;
+		int worldHeight = 768;
 		
 		createView(worldWidth, worldHeight);
 		createDashboard(worldWidth, 50);
@@ -75,7 +75,7 @@ public class BirdHunter extends GameEngine {
 	private void createView(int worldWidth, int worldHeight) {
 		View view = new View(worldWidth, worldHeight);
 		size(worldWidth, worldHeight);
-		view.setBackground(loadImage("src/main/java/nl/han/ica/birdhunter/media/background2.jpg"));
+		view.setBackground(loadImage("src/main/java/nl/han/ica/birdhunter/media/background1.jpg"));
 		setView(view);
 	}
 	
@@ -97,10 +97,10 @@ public class BirdHunter extends GameEngine {
 	
 	private void intializeObjects() {
 		Chest c = new Chest(this);
-		addGameObject(c, 50, height - height/4 - 20);
-		BirdSpawner bird = new BirdSpawner(this, 20);
+		addGameObject(c, 50, height - height/4);
+		BirdSpawner bird = new BirdSpawner(this, 50, 5);
 		h = new Hunter(this);
-		addGameObject(h, width/2, height - (height/3) - 80);
+		addGameObject(h, width/2, height - (height/3)-15);
 	}
 	
 	@Override
@@ -120,11 +120,9 @@ public class BirdHunter extends GameEngine {
 		numberOfHits++;
 	}
 
-
 	private void refreshDashboard() {
 		scoreText.setText("score: " + numberOfHits);
 		ammoText.setText("ammo: " + ammo);
 	}
-	
 	
 }

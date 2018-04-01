@@ -12,22 +12,21 @@ public class Bullet extends GameObject implements ICollidableWithGameObjects {
 	private Sound hitSound;
 	private int bulletSize = 5;
 
-	public Bullet(BirdHunter bh, Sound hitSound) {
+	public Bullet(BirdHunter bh) {
 		this.bh = bh;
 		this.hitSound = hitSound;
 		//setySpeed(-bulletSize/10f);
 		setySpeed(-10);
 		setWidth(bulletSize);
 		setHeight(bulletSize);
+		hitSound = new Sound(bh,"src/main/java/nl/han/ica/birdhunter/media/crow.mp3");
 	}
 	    
 	@Override
 	public void update() {
 		if(getY() < 0) {
 			bh.deleteGameObject(this);
-
 		}
-		
 	}
 
 	@Override
@@ -50,7 +49,4 @@ public class Bullet extends GameObject implements ICollidableWithGameObjects {
 			}
 		} 
 	}
-	
-	
-
 }
