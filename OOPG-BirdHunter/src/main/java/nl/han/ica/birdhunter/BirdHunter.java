@@ -3,29 +3,22 @@ package nl.han.ica.birdhunter;
 import java.awt.event.KeyEvent;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-
 import javax.swing.JOptionPane;
 
-import nl.han.ica.OOPDProcessingEngineHAN.Alarm.Alarm;
-import nl.han.ica.OOPDProcessingEngineHAN.Alarm.IAlarmListener;
 import nl.han.ica.OOPDProcessingEngineHAN.Dashboard.Dashboard;
 import nl.han.ica.OOPDProcessingEngineHAN.Engine.GameEngine;
-import nl.han.ica.OOPDProcessingEngineHAN.Engine.GameThread;
-import nl.han.ica.OOPDProcessingEngineHAN.Objects.Sprite;
+import nl.han.ica.OOPDProcessingEngineHAN.Persistence.FilePersistence;
+import nl.han.ica.OOPDProcessingEngineHAN.Persistence.IPersistence;
 import nl.han.ica.OOPDProcessingEngineHAN.Sound.Sound;
-import nl.han.ica.OOPDProcessingEngineHAN.Tile.TileMap;
-import nl.han.ica.OOPDProcessingEngineHAN.Tile.TileType;
 import nl.han.ica.OOPDProcessingEngineHAN.View.View;
-import nl.han.ica.waterworld.tiles.BoardsTile;
-import processing.core.PImage;
 
 @SuppressWarnings("serial")
 public class BirdHunter extends GameEngine {
+	boolean isGamePaused = false;
 	Sound hitSound;
 	Hunter h;
+	Menu menu;
+	IPersistence persistence;
 	int countDown = 60;
 	int numberOfHits = 0;
 	int ammo;
@@ -52,7 +45,15 @@ public class BirdHunter extends GameEngine {
 		createDashboard(worldWidth, 50);
 		initializeSounds();
 		intializeObjects();
+		initializePersistence();
 		startTimer();
+	}
+
+	private void initializePersistence() {
+		persistence = new FilePersistence("main/java/nl/han/ica/birdhunter/media/saveGame.txt");
+		if (persistence.fileExists()) {
+			level = Integer.parseInt(persistence.loadDataString());
+		}
 	}
 
 	private void startTimer() {
@@ -115,11 +116,12 @@ public class BirdHunter extends GameEngine {
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		boolean isGamePaused = this.getThreadState();
+		isGamePaused = this.getThreadState();
 		if (e.getKeyCode() == KeyEvent.VK_E) {
 			if (!isGamePaused) {
 				this.pauseGame();
-				JOptionPane.showMessageDialog(frame, "Druk op ok..");
+				//menu.setVisible(true);
+				//JOptionPane.showMessageDialog(frame, "Druk op ok..");
 			} else {
 				this.resumeGame();
 			}
@@ -133,6 +135,7 @@ public class BirdHunter extends GameEngine {
 			numberOfHits = 0;
 			level++;
 			seconds = 60;
+			persistence.saveData(Integer.toString(level));
 		}
 	}
 
