@@ -68,15 +68,19 @@ public class BirdHunter extends GameEngine {
 
 	private void startTimer() {
 		timer = new Timer();
+		isGamePaused = true;
 		timer.schedule(new TimerTask() {
 
 			@Override
 			public void run() {
 				timeText.setText("Time left: " + seconds);
-				if (seconds != 0) {
+				if (!isGamePaused) {
+					
+				} else if (seconds != 0) {
 					seconds--;
 				} else {
 					JOptionPane.showMessageDialog(frame, "Helaas.. De tijd is op");
+					persistence.saveData(Integer.toString(1));
 					System.exit(0);
 				}
 			}
