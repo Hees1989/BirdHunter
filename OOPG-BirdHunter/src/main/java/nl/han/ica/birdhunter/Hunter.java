@@ -1,20 +1,11 @@
 package nl.han.ica.birdhunter;
 
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-
-import nl.han.ica.OOPDProcessingEngineHAN.Collision.CollidedTile;
 import nl.han.ica.OOPDProcessingEngineHAN.Collision.ICollidableWithGameObjects;
-import nl.han.ica.OOPDProcessingEngineHAN.Collision.ICollidableWithTiles;
-import nl.han.ica.OOPDProcessingEngineHAN.Exceptions.TileNotFoundException;
 import nl.han.ica.OOPDProcessingEngineHAN.Objects.AnimatedSpriteObject;
 import nl.han.ica.OOPDProcessingEngineHAN.Objects.GameObject;
 import nl.han.ica.OOPDProcessingEngineHAN.Objects.Sprite;
 import nl.han.ica.OOPDProcessingEngineHAN.Sound.Sound;
-import nl.han.ica.waterworld.Bubble;
-import nl.han.ica.waterworld.tiles.BoardsTile;
-import processing.core.PVector;
 
 public class Hunter extends AnimatedSpriteObject implements ICollidableWithGameObjects {
 
@@ -69,7 +60,6 @@ public class Hunter extends AnimatedSpriteObject implements ICollidableWithGameO
 				setCurrentFrameIndex(1);
 				if (ammo > 0 && !isHunterOnChest) {
 					Bullet b = new Bullet(bh);
-					;
 					bulletSound.rewind();
 					bulletSound.play();
 					ammo--;

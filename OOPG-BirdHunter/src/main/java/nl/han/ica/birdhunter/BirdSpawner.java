@@ -1,7 +1,5 @@
 package nl.han.ica.birdhunter;
 
-import java.util.Random;
-
 import nl.han.ica.OOPDProcessingEngineHAN.Alarm.Alarm;
 import nl.han.ica.OOPDProcessingEngineHAN.Alarm.IAlarmListener;
 

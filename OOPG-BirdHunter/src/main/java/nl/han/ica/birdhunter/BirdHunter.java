@@ -144,8 +144,8 @@ public class BirdHunter extends GameEngine {
 		h = new Hunter(this);
 		addGameObject(h, width / 2, height - (height / 3) - 15);
 		menu = new Menu(this);
-		menu.setVisible(false);
-		addGameObject(menu);
+		//menu.setVisible(false);
+		//addGameObject(menu);
 	}
 
 	@Override
@@ -154,11 +154,11 @@ public class BirdHunter extends GameEngine {
 		if (e.getKeyCode() == KeyEvent.VK_E) {
 			if (!isGamePaused) {
 				this.pauseGame();
-				menu.setVisible(true);
+				addGameObject(menu);
 				//JOptionPane.showMessageDialog(frame, "Druk op ok..");
 			} else {
 				this.resumeGame();
-				menu.setVisible(false);
+				deleteGameObject(menu);
 			}
 		}
 	}
