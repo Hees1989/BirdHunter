@@ -27,10 +27,19 @@ public class BirdSpawner implements IAlarmListener {
 	public void triggerAlarm(String alarmName) {
 		boolean isGamePaused = bh.getThreadState();
 		if (!isGamePaused) {
-			Bird b = new Bird(bh, speed);
+			Bird b = new Bird(bh, bh.level);
 			bh.addGameObject(b);
 		}
 		startAlarm();
 	}
 
+	public int getSpeed() {
+		return speed;
+	}
+
+	public void setSpeed(int speed) {
+		this.speed = speed;
+	}
+
+	
 }
