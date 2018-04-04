@@ -29,6 +29,7 @@ public class BirdHunter extends GameEngine {
 	TextObject ammoText;
 	TextObject levelText;
 	BirdSpawner bs;
+	Thread t;
 	
 	TextObject resumeText;
 	
@@ -68,7 +69,33 @@ public class BirdHunter extends GameEngine {
 	}
 
 	private void startTimer() {
-		timer = new Timer();
+		
+		t = new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				timeText.setText("Time left: " + seconds);
+				long startTime = System.currentTimeMillis();
+				long endTime = System.currentTimeMillis() + (seconds * 1000);
+				long tmp = startTime + 1000 ;
+				while (startTime < endTime) {
+					if (startTime > tmp - 100 && startTime < tmp + 100) {
+						seconds--;
+						timeText.setText("Time left: " + seconds);
+						tmp += 1000;
+					}
+					startTime = System.currentTimeMillis();
+				}
+				JOptionPane.showMessageDialog(frame, "Helaas.. De tijd is op");
+				persistence.saveData(Integer.toString(1));
+				System.exit(0);
+			}
+		});
+		t.start();
+		
+		
+		
+		/*timer = new Timer();
 		isGamePaused = true;
 		timer.schedule(new TimerTask() {
 
@@ -85,13 +112,14 @@ public class BirdHunter extends GameEngine {
 					System.exit(0);
 				}
 			}
-		}, 0, 1000);
+		}, 0, 1000);*/
 	}
 
 	@Override
 	public void update() {
 		refreshDashboard();
 		ammo = h.getAmmo();
+		isGamePaused = this.getThreadState();
 	}
 
 	private void createView(int worldWidth, int worldHeight) {
