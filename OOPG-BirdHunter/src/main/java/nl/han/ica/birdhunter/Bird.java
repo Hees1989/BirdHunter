@@ -20,8 +20,8 @@ public class Bird extends AnimatedSpriteObject implements ICollidableWithGameObj
 	private boolean isShot;
 	private int speed;
 
-	public Bird(BirdHunter world, int speed) {
-		super(new Sprite("src/main/java/nl/han/ica/birdhunter/media/bird.png"), 4);
+	public Bird(BirdHunter world, int speed, Sprite sprite) {
+		super(sprite, 4);
 		this.bh = world;
 		this.speed = speed;
 		random = new Random();
@@ -84,5 +84,4 @@ public class Bird extends AnimatedSpriteObject implements ICollidableWithGameObj
 			}
 		}
 	}
-
 }
