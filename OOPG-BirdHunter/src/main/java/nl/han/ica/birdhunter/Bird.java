@@ -7,9 +7,6 @@ import nl.han.ica.OOPDProcessingEngineHAN.Collision.ICollidableWithGameObjects;
 import nl.han.ica.OOPDProcessingEngineHAN.Objects.AnimatedSpriteObject;
 import nl.han.ica.OOPDProcessingEngineHAN.Objects.GameObject;
 import nl.han.ica.OOPDProcessingEngineHAN.Objects.Sprite;
-import nl.han.ica.OOPDProcessingEngineHAN.Objects.SpriteObject;
-import nl.han.ica.waterworld.Player;
-import nl.han.ica.waterworld.Swordfish;
 
 public class Bird extends AnimatedSpriteObject implements ICollidableWithGameObjects {
 

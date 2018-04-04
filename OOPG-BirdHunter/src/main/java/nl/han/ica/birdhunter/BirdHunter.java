@@ -28,6 +28,7 @@ public class BirdHunter extends GameEngine {
 	TextObject timeText;
 	TextObject ammoText;
 	TextObject levelText;
+	BirdSpawner bs;
 	
 	TextObject resumeText;
 	
@@ -114,21 +115,6 @@ public class BirdHunter extends GameEngine {
 		db.addGameObject(levelText);
 		
 		this.addDashboard(db);
-		
-		/*Dashboard menu = new Dashboard(this.getWidth() / 2 - 200, this.getHeight() / 2 - 200, 400, 400);
-		menu.setBackground(0, 0, 0);
-		
-		resumeText = new TextObject("Resume", -483, -184);
-		
-		menu.addGameObject(resumeText);
-		//this.addDashboard(menu);
-		
-		System.out.println(menu.getX());
-		System.out.println(menu.getY());
-		System.out.println(resumeText.getX());
-		System.out.println(resumeText.getY());*/
-		
-		
 	}
 
 	private void initializeSounds() {
@@ -140,12 +126,10 @@ public class BirdHunter extends GameEngine {
 	private void intializeObjects() {
 		Chest c = new Chest(this);
 		addGameObject(c, 50, height - height / 4);
-		BirdSpawner bird = new BirdSpawner(this, 50, 5, 10);
+		bs = new BirdSpawner(this, 50, 5, 10);
 		h = new Hunter(this);
 		addGameObject(h, width / 2, height - (height / 3) - 15);
 		menu = new Menu(this);
-		menu.setVisible(false);
-		addGameObject(menu);
 	}
 
 	@Override
@@ -154,12 +138,10 @@ public class BirdHunter extends GameEngine {
 		if (e.getKeyCode() == KeyEvent.VK_E) {
 			if (!isGamePaused) {
 				this.pauseGame();
-				menu.setVisible(true);
-				//JOptionPane.showMessageDialog(frame, "Druk op ok..");
+				addGameObject(menu);
 			} else {
 				this.resumeGame();
-				menu.setVisible(false);
-				
+				deleteGameObject(menu);
 			}
 		}
 	}
@@ -170,6 +152,7 @@ public class BirdHunter extends GameEngine {
 		} else {
 			numberOfHits = 0;
 			level++;
+			bs.setSpeed(level);
 			seconds = 60;
 			persistence.saveData(Integer.toString(level));
 		}

@@ -14,7 +14,6 @@ public class Bullet extends GameObject implements ICollidableWithGameObjects {
 
 	public Bullet(BirdHunter bh) {
 		this.bh = bh;
-		this.hitSound = hitSound;
 		//setySpeed(-bulletSize/10f);
 		setySpeed(-10);
 		setWidth(bulletSize);
@@ -45,7 +44,6 @@ public class Bullet extends GameObject implements ICollidableWithGameObjects {
 				hitSound.play();
 				bh.deleteGameObject(this);
 				bh.increaseHits();
-				System.out.println("Hit!");
 			}
 		} 
 	}

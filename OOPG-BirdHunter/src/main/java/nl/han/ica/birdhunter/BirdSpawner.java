@@ -1,7 +1,5 @@
 package nl.han.ica.birdhunter;
 
-import java.util.Random;
-
 import nl.han.ica.OOPDProcessingEngineHAN.Alarm.Alarm;
 import nl.han.ica.OOPDProcessingEngineHAN.Alarm.IAlarmListener;
 import nl.han.ica.OOPDProcessingEngineHAN.Objects.Sprite;
@@ -41,8 +39,18 @@ public class BirdSpawner implements IAlarmListener {
 			Bird b2 = new Bird(bh, speed, new Sprite("src/main/java/nl/han/ica/birdhunter/media/bird.png"));
 			bh.addGameObject(b2);
 			}
+
 		}
 		startAlarm();
 	}
 
+	public int getSpeed() {
+		return speed;
+	}
+
+	public void setSpeed(int speed) {
+		this.speed = speed;
+	}
+
+	
 }
