@@ -138,14 +138,14 @@ public class BirdHunter extends GameEngine {
 	}
 
 	private void intializeObjects() {
-		menu = new Menu(this);
-		menu.setVisible(false);
-		addGameObject(menu);
 		Chest c = new Chest(this);
 		addGameObject(c, 50, height - height / 4);
 		BirdSpawner bird = new BirdSpawner(this, 50, 5);
 		h = new Hunter(this);
 		addGameObject(h, width / 2, height - (height / 3) - 15);
+		menu = new Menu(this);
+		menu.setVisible(false);
+		addGameObject(menu);
 	}
 
 	@Override
