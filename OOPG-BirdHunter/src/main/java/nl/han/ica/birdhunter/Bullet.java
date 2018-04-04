@@ -21,13 +21,15 @@ public class Bullet extends GameObject implements ICollidableWithGameObjects {
 
 	public Bullet(BirdHunter bh) {
 		this.bh = bh;
-		// setySpeed(-bulletSize/10f);
 		setySpeed(-15);
 		setWidth(bulletSize);
 		setHeight(bulletSize);
 		hitSound = new Sound(bh, "src/main/java/nl/han/ica/birdhunter/media/crow.mp3");
 	}
 
+	/* (non-Javadoc)
+	 * @see nl.han.ica.OOPDProcessingEngineHAN.Objects.GameObject#update()
+	 */
 	@Override
 	public void update() {
 		if (getY() < 0) {
@@ -35,8 +37,8 @@ public class Bullet extends GameObject implements ICollidableWithGameObjects {
 		}
 	}
 
-	/**
-	 * Draws the bullet
+	/* (non-Javadoc)
+	 * @see nl.han.ica.OOPDProcessingEngineHAN.Objects.GameObject#draw(processing.core.PGraphics)
 	 */
 	@Override
 	public void draw(PGraphics g) {

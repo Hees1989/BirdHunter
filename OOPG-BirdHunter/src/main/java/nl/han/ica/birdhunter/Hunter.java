@@ -20,7 +20,6 @@ public class Hunter extends AnimatedSpriteObject implements ICollidableWithGameO
 	 * Constructor
 	 * @param bh referentie van BirdHunter
 	 */
-
 	public Hunter(BirdHunter bh) {
 		super(new Sprite("src/main/java/nl/han/ica/birdhunter/media/hunter-sprite.png"), 3);
 		this.bh = bh;
@@ -33,6 +32,9 @@ public class Hunter extends AnimatedSpriteObject implements ICollidableWithGameO
 
 	}
 
+	/* (non-Javadoc)
+	 * @see nl.han.ica.OOPDProcessingEngineHAN.Objects.GameObject#update()
+	 */
 	@Override
 	public void update() {
 		if (getX() <= 0) {
@@ -46,6 +48,9 @@ public class Hunter extends AnimatedSpriteObject implements ICollidableWithGameO
 		isHunterOnChest = false;
 	}
 
+	/* (non-Javadoc)
+	 * @see nl.han.ica.OOPDProcessingEngineHAN.Objects.GameObject#keyPressed(int, char)
+	 */
 	@Override
 	public void keyPressed(int keyCode, char key) {
 		boolean isGamePaused = bh.getThreadState();
@@ -86,7 +91,6 @@ public class Hunter extends AnimatedSpriteObject implements ICollidableWithGameO
 	/**
 	 * geeft een boolean isHunterOnChest terug wanneer de hunter op de kist staat.
 	 */
-
 	@Override
 	public void gameObjectCollisionOccurred(List<GameObject> collidedGameObjects) {
 		for (GameObject g : collidedGameObjects) {

@@ -17,6 +17,17 @@ public class Bird extends AnimatedSpriteObject implements ICollidableWithGameObj
 	private boolean isShot;
 	private int speed;
 
+	
+	/**
+	 * Constructor van de bird klasse. Hierin wordt een Sprite mee gegeven om het uiterlijk van de vogel te bepalen.
+	 * 
+	 * @param bh
+	 * 		De instantie van de klasse BirdHunter
+	 * @param speed
+	 * 		Meegegeven snelheid van de vogel
+	 * @param sprite
+	 * 		Sprite voor het uiterlijk van de vogel
+	 */
 	public Bird(BirdHunter bh, int speed, Sprite sprite) {
 		super(sprite, 4);
 		this.bh = bh;
@@ -42,6 +53,9 @@ public class Bird extends AnimatedSpriteObject implements ICollidableWithGameObj
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see nl.han.ica.OOPDProcessingEngineHAN.Objects.GameObject#update()
+	 */
 	@Override
 	public void update() {
 		if (vanRechts) {
@@ -73,10 +87,10 @@ public class Bird extends AnimatedSpriteObject implements ICollidableWithGameObj
 			}
 		}
 	}
-	/**
-	 * geeft de boolean isShot terug als de kogel de vogel raakt.
+	
+	/* (non-Javadoc)
+	 * @see nl.han.ica.OOPDProcessingEngineHAN.Collision.ICollidableWithGameObjects#gameObjectCollisionOccurred(java.util.List)
 	 */
-
 	@Override
 	public void gameObjectCollisionOccurred(List<GameObject> collidedGameObjects) {
 		for (GameObject g : collidedGameObjects) {

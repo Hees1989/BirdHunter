@@ -5,18 +5,18 @@ import nl.han.ica.OOPDProcessingEngineHAN.Objects.SpriteObject;
 
 public class Chest extends SpriteObject {
 
-	private BirdHunter bh;
 
 	/**
 	 * Constructor
 	 * @param bh referentie van BirdHunter
 	 */
-	
-	public Chest(BirdHunter bh) {
+	public Chest() {
 		super(new Sprite("src/main/java/nl/han/ica/birdhunter/media/chest.png"));
-		this.bh = bh;
 	}
 
+	/* (non-Javadoc)
+	 * @see nl.han.ica.OOPDProcessingEngineHAN.Objects.GameObject#update()
+	 */
 	@Override
 	public void update() {
 	}

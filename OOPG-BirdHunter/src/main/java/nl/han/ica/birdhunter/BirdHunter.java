@@ -1,9 +1,6 @@
 package nl.han.ica.birdhunter;
 
 import java.awt.event.KeyEvent;
-import java.util.Timer;
-import javax.swing.JOptionPane;
-
 import nl.han.ica.OOPDProcessingEngineHAN.Dashboard.Dashboard;
 import nl.han.ica.OOPDProcessingEngineHAN.Engine.GameEngine;
 import nl.han.ica.OOPDProcessingEngineHAN.Persistence.FilePersistence;
@@ -14,28 +11,32 @@ import nl.han.ica.OOPDProcessingEngineHAN.View.View;
 @SuppressWarnings("serial")
 public class BirdHunter extends GameEngine {
 	private boolean isGamePaused = false;
-	private Sound hitSound, backgroundNormal, backgroundDark;
+	private Sound backgroundNormal, backgroundDark;
 	private Hunter h;
 	private IPersistence persistence;
-	private int countDown = 60;
 	private int numberOfHits = 0;
 	private int ammo;
 	private int level = 1;
-	private int seconds = 60;
 	private Menu menu;
-	private TextObject scoreText, ammoText, levelText, resumeText;
+	private TextObject scoreText, ammoText, levelText;
 	private BirdSpawner bs;
-	private Thread t;
 	private View viewNormal, viewDark;
 	private boolean isDark;
-	private Timer timer;
 	private float birdsPerSecond;
 
+	/**
+	 * De main methode, waarin het spel wordt gecreerd.
+	 * 
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		BirdHunter bh = new BirdHunter();
 		bh.runSketch();
 	}
 
+	/* (non-Javadoc)
+	 * @see nl.han.ica.OOPDProcessingEngineHAN.Engine.GameEngine#setupGame()
+	 */
 	@Override
 	public void setupGame() {
 		int worldWidth = 1366;
@@ -43,12 +44,14 @@ public class BirdHunter extends GameEngine {
 
 		createView(worldWidth, worldHeight);
 		createDashboard(worldWidth, 50);
-		createMenu();
 		initializeSounds();
 		initializePersistence();
 		intializeObjects();
 	}
 	
+	/* (non-Javadoc)
+	 * @see nl.han.ica.OOPDProcessingEngineHAN.Engine.GameEngine#update()
+	 */
 	@Override
 	public void update() {
 		refreshDashboard();
@@ -56,11 +59,9 @@ public class BirdHunter extends GameEngine {
 		soundLoop();	
 	}
 
-	private void createMenu() {
-		Dashboard menu = new Dashboard(this.getWidth() / 2 - 200, this.getHeight() / 2 - 300, 400, 400);
-		this.addDashboard(menu);
-	}
-
+	/**
+	 * Deze methode maakt een verbinding met het bestand waarin de spelgegevens opgeslagen zijn en zet de inhoud vervolgens in een variabele.
+	 */
 	private void initializePersistence() {
 		persistence = new FilePersistence("main/java/nl/han/ica/birdhunter/media/saveGame.txt");
 		if (persistence.fileExists()) {
@@ -68,6 +69,14 @@ public class BirdHunter extends GameEngine {
 		}
 	}
 
+	/**
+	 * Deze methode creert de 2 views die gebruikt worden in het spel.
+	 * 
+	 * @param worldWidth
+	 * 		De breedte van het scherm
+	 * @param worldHeight
+	 * 		De hoogte van het scherm
+	 */
 	private void createView(int worldWidth, int worldHeight) {
 		viewNormal = new View(worldWidth, worldHeight);
 		viewDark = new View(worldWidth, worldHeight);
@@ -77,6 +86,14 @@ public class BirdHunter extends GameEngine {
 		setView(viewNormal);
 	}
 	
+	/**
+	 * Maakt het dashboard aan waarin de score en het aantal kogels worden weergegeven.
+	 * 
+	 * @param dashboardWidth
+	 * 		De breedte van het scherm
+	 * @param dashboardHeight
+	 * 		De hoogte van het scherm
+	 */
 	private void createDashboard(int dashboardWidth, int dashboardHeight) {
 		Dashboard db = new Dashboard(0, 0, dashboardWidth, dashboardHeight);
 
@@ -90,11 +107,17 @@ public class BirdHunter extends GameEngine {
 		this.addDashboard(db);
 	}
 
+	/**
+	 * Initialiseert de geluiden die tijdens het spelen gespeeld worden.
+	 */
 	private void initializeSounds() {
 		backgroundDark = new Sound(this, "src/main/java/nl/han/ica/birdhunter/media/dark-background.mp3");
 		backgroundNormal = new Sound(this, "src/main/java/nl/han/ica/birdhunter/media/background-music2.mp3");
 	}
 	
+	/**
+	 * Controleert continu welk geluid er afgespeeld moet worden.
+	 */
 	private void soundLoop() {
 		isDark = menu.isDark();
 
@@ -116,8 +139,11 @@ public class BirdHunter extends GameEngine {
 		}
 	}
 
+	/**
+	 * Initialiseert de objecten die gebruikt worden.
+	 */
 	private void intializeObjects() {
-		Chest c = new Chest(this);
+		Chest c = new Chest();
 		addGameObject(c, 50, height - height / 4);
 		birdsPerSecond = 25;
 		bs = new BirdSpawner(this, birdsPerSecond, level+1,  15);
@@ -126,6 +152,9 @@ public class BirdHunter extends GameEngine {
 		menu = new Menu(this);
 	}
 
+	/* (non-Javadoc)
+	 * @see processing.core.PApplet#keyReleased(java.awt.event.KeyEvent)
+	 */
 	@Override
 	public void keyReleased(KeyEvent e) {
 		isGamePaused = this.getThreadState();
@@ -140,6 +169,9 @@ public class BirdHunter extends GameEngine {
 		}
 	}
 
+	/**
+	 * Deze methode houdt de spelrondes bij zowel als het gedrag hiervan.
+	 */
 	public void increaseHits() {
 		if (numberOfHits != 19) {
 			numberOfHits++;
@@ -156,10 +188,21 @@ public class BirdHunter extends GameEngine {
 		}
 	}
 
+	/**
+	 * Vernieuwd het dashboard.
+	 */
 	private void refreshDashboard() {
 		scoreText.setText("score: " + numberOfHits + "/" + 20);
 		ammoText.setText("ammo: " + ammo);
 		levelText.setText("level: " + level);
+	}
+
+	/**
+	 * @param level
+	 * 		Stel het level van het spel in
+	 */
+	public void setLevel(int level) {
+		this.level = level;
 	}
 
 }

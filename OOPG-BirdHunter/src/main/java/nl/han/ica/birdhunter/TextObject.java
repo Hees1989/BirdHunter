@@ -7,6 +7,13 @@ public class TextObject extends GameObject {
 
 	private String text;
 
+    /**
+     * Constructor van TextObject
+     * 
+     * @param text
+     * @param x
+     * @param y
+     */
     public TextObject(String text, int x, int y) {
         this.text=text;
         this.x = x;

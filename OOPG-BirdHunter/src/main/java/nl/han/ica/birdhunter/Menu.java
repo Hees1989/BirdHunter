@@ -42,7 +42,7 @@ public class Menu extends GameObject {
 			g.text("Dark", width / 2, height / 2 - 65);
 		} else
 			g.text("Normal", width / 2, height / 2 - 65);
-		g.text("knop 2", width / 2, height / 2 + 35);
+		g.text("Reset", width / 2, height / 2 + 35);
 		g.text("Afsluiten", width / 2, height / 2 + 135);
 	}
 
@@ -55,18 +55,12 @@ public class Menu extends GameObject {
 		if (x > width / 2 - 100 && x < width / 2 + 100) {
 			if (y > height / 2 - 100 && y < height / 2 - 50) {
 				isDark = !isDark;
-				System.out.println("Knop 1!");
 			} else if (y > height / 2 && y < height / 2 + 50) {
-				System.out.println("Knop 2!");
+				bh.setLevel(1);
 			} else if (y > height / 2 + 100 && y < height / 2 + 150) {
-				System.out.println("Knop 3!");
 				System.exit(0);
 			}
-		} else {
-			System.out.println("Buiten de knop");
 		}
-		System.out.println(x);
-		System.out.println(y);
 	}
 
 	public boolean isDark() {

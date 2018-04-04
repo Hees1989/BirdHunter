@@ -29,13 +29,15 @@ public class BirdSpawner implements IAlarmListener {
 
 	}
 
-	
 	private void startAlarm() {
 		Alarm alarm = new Alarm("New bird", 10 / birdsPerSecond);
 		alarm.addTarget(this);
 		alarm.start();
 	}
 
+	/* (non-Javadoc)
+	 * @see nl.han.ica.OOPDProcessingEngineHAN.Alarm.IAlarmListener#triggerAlarm(java.lang.String)
+	 */
 	@Override
 	public void triggerAlarm(String alarmName) {
 		boolean isGamePaused = bh.getThreadState();
@@ -53,14 +55,26 @@ public class BirdSpawner implements IAlarmListener {
 		startAlarm();
 	}
 
+	/**
+	 * @return speed
+	 * 		Retourneert de snelheid van de vogel
+	 */
 	public int getSpeed() {
 		return speed;
 	}
 
+	/**
+	 * @param speed
+	 * 		Stel de snelheid van de vogel in
+	 */
 	public void setSpeed(int speed) {
 		this.speed = speed;
 	}
 
+	/**
+	 * @return speedSuperBird
+	 * 		Retourneert snelheid van de supervogel
+	 */
 	public int getspeedSuperBird() {
 		return speedSuperBird;
 	}
