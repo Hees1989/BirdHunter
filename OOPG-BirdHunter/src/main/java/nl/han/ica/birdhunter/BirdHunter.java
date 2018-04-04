@@ -2,7 +2,6 @@ package nl.han.ica.birdhunter;
 
 import java.awt.event.KeyEvent;
 import java.util.Timer;
-import java.util.TimerTask;
 import javax.swing.JOptionPane;
 
 import nl.han.ica.OOPDProcessingEngineHAN.Dashboard.Dashboard;
@@ -16,6 +15,8 @@ import nl.han.ica.OOPDProcessingEngineHAN.View.View;
 public class BirdHunter extends GameEngine {
 	boolean isGamePaused = false;
 	Sound hitSound;
+	Sound backgroundNormal;
+	Sound backgroundDark;
 	Hunter h;
 	IPersistence persistence;
 	int countDown = 60;
@@ -30,9 +31,11 @@ public class BirdHunter extends GameEngine {
 	TextObject levelText;
 	BirdSpawner bs;
 	Thread t;
-	
+	View viewNormal;
+	View viewDark;
+	boolean isDark;
 	TextObject resumeText;
-	
+
 	Timer timer;
 	Sound backgroundSound;
 
@@ -57,7 +60,7 @@ public class BirdHunter extends GameEngine {
 
 	private void createMenu() {
 		Dashboard menu = new Dashboard(this.getWidth() / 2 - 200, this.getHeight() / 2 - 300, 400, 400);
-		//menu.setBackground(0, 0, 0);
+		// menu.setBackground(0, 0, 0);
 		this.addDashboard(menu);
 	}
 
@@ -103,7 +106,7 @@ public class BirdHunter extends GameEngine {
 			public void run() {
 				timeText.setText("Time left: " + seconds);
 				if (!isGamePaused) {
-					
+
 				} else if (seconds != 0) {
 					seconds--;
 				} else {
@@ -119,35 +122,58 @@ public class BirdHunter extends GameEngine {
 	public void update() {
 		refreshDashboard();
 		ammo = h.getAmmo();
-		isGamePaused = this.getThreadState();
+		isDark = menu.isDark();
+
+		if (isDark) {
+			setView(viewDark);
+			backgroundDark.play();
+			backgroundNormal.pause();
+			
+		} else {
+			setView(viewNormal);
+			backgroundNormal.play();
+			backgroundDark.pause();
+		
+	}
 	}
 
 	private void createView(int worldWidth, int worldHeight) {
-		View view = new View(worldWidth, worldHeight);
+		viewNormal = new View(worldWidth, worldHeight);
+		viewDark = new View(worldWidth, worldHeight);
 		size(worldWidth, worldHeight);
-		view.setBackground(loadImage("src/main/java/nl/han/ica/birdhunter/media/dark-background.jpg"));
-		setView(view);
+		viewNormal.setBackground(loadImage("src/main/java/nl/han/ica/birdhunter/media/background1.jpg"));
+		viewDark.setBackground(loadImage("src/main/java/nl/han/ica/birdhunter/media/dark-background.jpg"));
+		setView(viewNormal);
+	}
+
+	public View viewDark() {
+		return viewDark;
+	}
+
+	public View viewNormal() {
+		return viewNormal;
 	}
 
 	private void createDashboard(int dashboardWidth, int dashboardHeight) {
 		Dashboard db = new Dashboard(0, 0, dashboardWidth, dashboardHeight);
-		
+
 		scoreText = new TextObject("score: " + numberOfHits, 20, 0);
 		timeText = new TextObject("Time left: ", 200, 0);
 		ammoText = new TextObject("ammo: " + ammo, 450, 0);
 		levelText = new TextObject("level: " + level, 700, 0);
-		
+
 		db.addGameObject(scoreText);
 		db.addGameObject(timeText);
 		db.addGameObject(ammoText);
 		db.addGameObject(levelText);
-		
+
 		this.addDashboard(db);
 	}
 
 	private void initializeSounds() {
-		backgroundSound = new Sound(this, "src/main/java/nl/han/ica/birdhunter/media/dark-background.mp3");
-		backgroundSound.loop(-1);
+		backgroundDark = new Sound(this, "src/main/java/nl/han/ica/birdhunter/media/dark-background.mp3");
+		backgroundNormal = new Sound(this, "src/main/java/nl/han/ica/birdhunter/media/background-music2.mp3");
+		
 
 	}
 
