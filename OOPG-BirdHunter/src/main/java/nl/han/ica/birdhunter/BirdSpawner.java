@@ -11,6 +11,14 @@ public class BirdSpawner implements IAlarmListener {
 	private int speed;
 	private int speedSuperBird;
 	private boolean isSuperBird;
+	
+	/**
+	 * Constructor
+	 * @param bh referentie van birdhunter
+	 * @param birdsPerSecond vogels per seconde
+	 * @param speed vliegsnelheid van de kraai
+	 * @param speedSuperBird vliegsnelheid van de supervogel
+	 */
 
 	public BirdSpawner(BirdHunter bh, float birdsPerSecond, int speed, int speedSuperBird) {
 		this.bh = bh;
@@ -21,6 +29,7 @@ public class BirdSpawner implements IAlarmListener {
 
 	}
 
+	
 	private void startAlarm() {
 		Alarm alarm = new Alarm("New bird", 10 / birdsPerSecond);
 		alarm.addTarget(this);
@@ -32,12 +41,12 @@ public class BirdSpawner implements IAlarmListener {
 		boolean isGamePaused = bh.getThreadState();
 		if (!isGamePaused) {
 			isSuperBird = Math.random() < 0.1;
-			if(isSuperBird) {
-			Bird b1 = new Bird(bh, speedSuperBird, new Sprite("src/main/java/nl/han/ica/birdhunter/media/super-bird.png"));
-			bh.addGameObject(b1);
-			}else {
-			Bird b2 = new Bird(bh, speed, new Sprite("src/main/java/nl/han/ica/birdhunter/media/bird.png"));
-			bh.addGameObject(b2);
+			if (isSuperBird) {
+				Bird superBird = new SuperBird(bh, speedSuperBird);
+				bh.addGameObject(superBird);
+			} else {
+				Bird bird = new Crow(bh, speed);
+				bh.addGameObject(bird);
 			}
 
 		}
@@ -52,5 +61,12 @@ public class BirdSpawner implements IAlarmListener {
 		this.speed = speed;
 	}
 
-	
+	public int getspeedSuperBird() {
+		return speedSuperBird;
+	}
+
+	public void setSpeedSuperBird(int speedSuperBird) {
+		this.speedSuperBird = speedSuperBird;
+	}
+
 }

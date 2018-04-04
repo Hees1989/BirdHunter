@@ -12,6 +12,11 @@ public class Bullet extends GameObject implements ICollidableWithGameObjects {
 	private Sound hitSound;
 	private int bulletSize = 5;
 
+	/**
+	 * Constructor
+	 * @param bh referentie van birdhunter
+	 */
+	
 	public Bullet(BirdHunter bh) {
 		this.bh = bh;
 		//setySpeed(-bulletSize/10f);
@@ -28,6 +33,9 @@ public class Bullet extends GameObject implements ICollidableWithGameObjects {
 		}
 	}
 
+	/**
+	 * Draws the bullet
+	 */
 	@Override
 	public void draw(PGraphics g) {
 		g.ellipseMode(g.CORNER);
@@ -36,14 +44,23 @@ public class Bullet extends GameObject implements ICollidableWithGameObjects {
 		g.ellipse(getX(), getY(), bulletSize, bulletSize);
 	}
 
+	/**
+	 * Speelt geluid af, verwijderd de kogel en verhoogt de score wanneer de vogel geraakt is.
+	 * @param Lijst van gameobjecten gameObjects
+	 */
 	@Override
 	public void gameObjectCollisionOccurred(List<GameObject> collidedGameObjects) {
 		for (GameObject g : collidedGameObjects) {
-			if (g instanceof Bird) {
+			if (g instanceof Crow) {
 				hitSound.rewind();
 				hitSound.play();
 				bh.deleteGameObject(this);
 				bh.increaseHits();
+			}
+			if (g instanceof SuperBird) {
+				hitSound.rewind();
+				hitSound.play();
+				bh.deleteGameObject(this);
 			}
 		} 
 	}

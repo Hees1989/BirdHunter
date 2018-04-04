@@ -17,17 +17,19 @@ public class Bird extends AnimatedSpriteObject implements ICollidableWithGameObj
 	private boolean isShot;
 	private int speed;
 
-	public Bird(BirdHunter world, int speed, Sprite sprite) {
+	public Bird(BirdHunter bh, int speed, Sprite sprite) {
 		super(sprite, 4);
-		this.bh = world;
+		this.bh = bh;
 		this.speed = speed;
 		random = new Random();
 		setCurrentFrameIndex(1);
 		vanRechts = Math.random() < 0.5;
 		direction();
-		
 	}
 
+	/**
+	 * bepaald doormiddel van de boolean vanRechts of de vogel van rechts of van links vliegt.
+	 */
 	private void direction() {
 		birdY = random.nextInt(250) + 10;
 		setY(birdY);
@@ -38,7 +40,6 @@ public class Bird extends AnimatedSpriteObject implements ICollidableWithGameObj
 			setX(1920);
 			setCurrentFrameIndex(1);
 		}
-
 	}
 
 	@Override
@@ -72,6 +73,9 @@ public class Bird extends AnimatedSpriteObject implements ICollidableWithGameObj
 			}
 		}
 	}
+	/**
+	 * geeft de boolean isShot terug als de kogel de vogel raakt.
+	 */
 
 	@Override
 	public void gameObjectCollisionOccurred(List<GameObject> collidedGameObjects) {

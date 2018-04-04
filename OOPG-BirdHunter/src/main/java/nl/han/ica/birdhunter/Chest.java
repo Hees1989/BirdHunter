@@ -7,6 +7,11 @@ public class Chest extends SpriteObject {
 
 	private BirdHunter bh;
 
+	/**
+	 * Constructor
+	 * @param bh referentie van BirdHunter
+	 */
+	
 	public Chest(BirdHunter bh) {
 		super(new Sprite("src/main/java/nl/han/ica/birdhunter/media/chest.png"));
 		this.bh = bh;

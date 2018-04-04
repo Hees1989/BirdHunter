@@ -15,12 +15,17 @@ public class Hunter extends AnimatedSpriteObject implements ICollidableWithGameO
 	private boolean isHunterOnChest;
 	private int ammo;
 	private int setAmmo;
+	
+	/**
+	 * Constructor
+	 * @param bh referentie van BirdHunter
+	 */
 
 	public Hunter(BirdHunter bh) {
 		super(new Sprite("src/main/java/nl/han/ica/birdhunter/media/hunter-sprite.png"), 3);
 		this.bh = bh;
 		setCurrentFrameIndex(1);
-		setFriction(0.1f);
+		setFriction(0.4f);
 		setAmmo = 10;
 		ammo = setAmmo;
 		bulletSound = new Sound(bh, "src/main/java/nl/han/ica/birdhunter/media/gun.mp3");
@@ -47,23 +52,23 @@ public class Hunter extends AnimatedSpriteObject implements ICollidableWithGameO
 
 		if (!isGamePaused) {
 			if (keyCode == bh.LEFT) {
-				setDirectionSpeed(270, 15);
+				setDirectionSpeed(270, 50);
 				setCurrentFrameIndex(0);
 			}
 
 			if (keyCode == bh.RIGHT) {
-				setDirectionSpeed(90, 15);
+				setDirectionSpeed(90, 50);
 				setCurrentFrameIndex(2);
 			}
 
 			if (key == ' ') {
 				setCurrentFrameIndex(1);
 				if (ammo > 0 && !isHunterOnChest) {
-					Bullet b = new Bullet(bh);
+					Bullet bullet = new Bullet(bh);
 					bulletSound.rewind();
 					bulletSound.play();
 					ammo--;
-					bh.addGameObject(b, getX() + 55, getY());
+					bh.addGameObject(bullet, getX() + 45 , getY());
 				}
 			}
 			if (key == 'r' || key == 'R') {
@@ -77,6 +82,10 @@ public class Hunter extends AnimatedSpriteObject implements ICollidableWithGameO
 			}
 		}
 	}
+	
+	/**
+	 * geeft een boolean isHunterOnChest terug wanneer de hunter op de kist staat.
+	 */
 
 	@Override
 	public void gameObjectCollisionOccurred(List<GameObject> collidedGameObjects) {
