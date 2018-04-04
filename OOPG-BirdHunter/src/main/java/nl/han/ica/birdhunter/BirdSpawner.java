@@ -68,5 +68,13 @@ public class BirdSpawner implements IAlarmListener {
 	public void setSpeedSuperBird(int speedSuperBird) {
 		this.speedSuperBird = speedSuperBird;
 	}
+	
+	public float getbirdsPerSecond() {
+		return birdsPerSecond;
+	}
+	
+	public void setbirdsPerSecond(float birdsPerSecond) {
+		this.birdsPerSecond = birdsPerSecond;
+	}
 
 }

@@ -14,21 +14,23 @@ public class Bullet extends GameObject implements ICollidableWithGameObjects {
 
 	/**
 	 * Constructor
-	 * @param bh referentie van birdhunter
+	 * 
+	 * @param bh
+	 *            referentie van birdhunter
 	 */
-	
+
 	public Bullet(BirdHunter bh) {
 		this.bh = bh;
-		//setySpeed(-bulletSize/10f);
-		setySpeed(-10);
+		// setySpeed(-bulletSize/10f);
+		setySpeed(-15);
 		setWidth(bulletSize);
 		setHeight(bulletSize);
-		hitSound = new Sound(bh,"src/main/java/nl/han/ica/birdhunter/media/crow.mp3");
+		hitSound = new Sound(bh, "src/main/java/nl/han/ica/birdhunter/media/crow.mp3");
 	}
-	    
+
 	@Override
 	public void update() {
-		if(getY() < 0) {
+		if (getY() < 0) {
 			bh.deleteGameObject(this);
 		}
 	}
@@ -45,8 +47,11 @@ public class Bullet extends GameObject implements ICollidableWithGameObjects {
 	}
 
 	/**
-	 * Speelt geluid af, verwijderd de kogel en verhoogt de score wanneer de vogel geraakt is.
-	 * @param Lijst van gameobjecten gameObjects
+	 * Speelt geluid af, verwijderd de kogel en verhoogt de score wanneer de vogel
+	 * geraakt is.
+	 * 
+	 * @param Lijst
+	 *            van gameobjecten gameObjects
 	 */
 	@Override
 	public void gameObjectCollisionOccurred(List<GameObject> collidedGameObjects) {
@@ -61,7 +66,11 @@ public class Bullet extends GameObject implements ICollidableWithGameObjects {
 				hitSound.rewind();
 				hitSound.play();
 				bh.deleteGameObject(this);
+				for (int i = 0; i < 5; i++) {
+					bh.increaseHits();
+				}
+
 			}
-		} 
+		}
 	}
 }

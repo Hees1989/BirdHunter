@@ -14,9 +14,7 @@ import nl.han.ica.OOPDProcessingEngineHAN.View.View;
 @SuppressWarnings("serial")
 public class BirdHunter extends GameEngine {
 	private boolean isGamePaused = false;
-	private Sound hitSound;
-	private Sound backgroundNormal;
-	private Sound backgroundDark;
+	private Sound hitSound, backgroundNormal, backgroundDark;
 	private Hunter h;
 	private IPersistence persistence;
 	private int countDown = 60;
@@ -25,17 +23,13 @@ public class BirdHunter extends GameEngine {
 	private int level = 1;
 	private int seconds = 60;
 	private Menu menu;
-	private TextObject scoreText;
-	private TextObject timeText;
-	private TextObject ammoText;
-	private TextObject levelText;
+	private TextObject scoreText, ammoText, levelText, resumeText;
 	private BirdSpawner bs;
 	private Thread t;
-	private View viewNormal;
-	private View viewDark;
+	private View viewNormal, viewDark;
 	private boolean isDark;
-	private TextObject resumeText;
 	private Timer timer;
+	private float birdsPerSecond;
 
 	public static void main(String[] args) {
 		BirdHunter bh = new BirdHunter();
@@ -53,8 +47,6 @@ public class BirdHunter extends GameEngine {
 		initializeSounds();
 		initializePersistence();
 		intializeObjects();
-		startTimer();
-		
 	}
 	
 	@Override
@@ -76,45 +68,6 @@ public class BirdHunter extends GameEngine {
 		}
 	}
 
-	private void startTimer() {
-
-		t = new Thread(new Runnable() {
-
-			@Override
-			public void run() {
-				timeText.setText("Time left: " + seconds);
-				long startTime = System.currentTimeMillis();
-				long endTime = System.currentTimeMillis() + (seconds * 1000);
-				long tmp = startTime + 1000;
-				while (startTime < endTime) {
-					if (startTime > tmp - 100 && startTime < tmp + 100) {
-						seconds--;
-						timeText.setText("Time left: " + seconds);
-						tmp += 1000;
-					}
-					startTime = System.currentTimeMillis();
-				}
-				JOptionPane.showMessageDialog(frame, "Helaas.. De tijd is op");
-				persistence.saveData(Integer.toString(1));
-				System.exit(0);
-			}
-		});
-		t.start();
-
-		/*
-		 * timer = new Timer(); isGamePaused = true; timer.schedule(new TimerTask() {
-		 * 
-		 * @Override public void run() { timeText.setText("Time left: " + seconds); if
-		 * (!isGamePaused) {
-		 * 
-		 * } else if (seconds != 0) { seconds--; } else {
-		 * JOptionPane.showMessageDialog(frame, "Helaas.. De tijd is op");
-		 * persistence.saveData(Integer.toString(1)); System.exit(0); } } }, 0, 1000);
-		 */
-	}
-
-
-
 	private void createView(int worldWidth, int worldHeight) {
 		viewNormal = new View(worldWidth, worldHeight);
 		viewDark = new View(worldWidth, worldHeight);
@@ -128,12 +81,10 @@ public class BirdHunter extends GameEngine {
 		Dashboard db = new Dashboard(0, 0, dashboardWidth, dashboardHeight);
 
 		scoreText = new TextObject("score: " + numberOfHits, 20, 0);
-		timeText = new TextObject("Time left: ", 200, 0);
 		ammoText = new TextObject("ammo: " + ammo, 450, 0);
 		levelText = new TextObject("level: " + level, 700, 0);
 
 		db.addGameObject(scoreText);
-		db.addGameObject(timeText);
 		db.addGameObject(ammoText);
 		db.addGameObject(levelText);
 		this.addDashboard(db);
@@ -168,7 +119,8 @@ public class BirdHunter extends GameEngine {
 	private void intializeObjects() {
 		Chest c = new Chest(this);
 		addGameObject(c, 50, height - height / 4);
-		bs = new BirdSpawner(this, 50, level, 10);
+		birdsPerSecond = 25;
+		bs = new BirdSpawner(this, birdsPerSecond, level+1,  15);
 		h = new Hunter(this);
 		addGameObject(h, width / 2, height - (height / 3) - 15);
 		menu = new Menu(this);
@@ -189,20 +141,23 @@ public class BirdHunter extends GameEngine {
 	}
 
 	public void increaseHits() {
-		if (numberOfHits != level * 10 - 1) {
+		if (numberOfHits != 19) {
 			numberOfHits++;
 		} else {
+			if(birdsPerSecond > 4) {
+				birdsPerSecond = birdsPerSecond -2;
+			}
 			numberOfHits = 0;
 			level++;
-			bs.setSpeed(level * 2);
+			bs.setbirdsPerSecond(birdsPerSecond);
+			bs.setSpeed((level * 2) - 1);
 			bs.setSpeedSuperBird(level * 3);
-			seconds = 60;
 			persistence.saveData(Integer.toString(level));
 		}
 	}
 
 	private void refreshDashboard() {
-		scoreText.setText("score: " + numberOfHits + "/" + level * 10);
+		scoreText.setText("score: " + numberOfHits + "/" + 20);
 		ammoText.setText("ammo: " + ammo);
 		levelText.setText("level: " + level);
 	}
